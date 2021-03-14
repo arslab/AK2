@@ -37,39 +37,3 @@ export const onDeleteItem = /* GraphQL */ `
     }
   }
 `;
-export const onCreatePerson = /* GraphQL */ `
-  subscription OnCreatePerson {
-    onCreatePerson {
-      id
-      name
-      description
-      image
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onUpdatePerson = /* GraphQL */ `
-  subscription OnUpdatePerson {
-    onUpdatePerson {
-      id
-      name
-      description
-      image
-      createdAt
-      updatedAt
-    }
-  }
-`;
-export const onDeletePerson = /* GraphQL */ `
-  subscription OnDeletePerson {
-    onDeletePerson {
-      id
-      name
-      description
-      image
-      createdAt
-      updatedAt
-    }
-  }
-`;
