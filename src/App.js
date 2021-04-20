@@ -10,6 +10,7 @@ import Card from 'react-bootstrap/Card';
 
 
 const initialFormState = { name: '', description: '' }
+//const initialFormState = { name: '', description: '', url:'' }
 
 function App() {
   const [items, setItems] = useState([]);
@@ -49,7 +50,7 @@ function App() {
     await API.graphql({ query: deleteItemMutation, variables: { input: { id } }});
   }
 
-  async function onChange(e) {
+  async function onChangeFile(e) {
     if (!e.target.files[0]) return
     const file = e.target.files[0];
     setFormData({ ...formData, image: file.name });
@@ -59,26 +60,25 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Food Stock 03281454</h1>
+      <h1>Food Stock 0420</h1>
       <div style={{marginBottom: 30}}>
         {
           items.map(item => (
             <Card>
             <Card.Body>
-              {/* <div key={item.id || item.name}> */}
-              <div class="container-fluid">
-              <div class="row">
-                <div class="col-4">
-                  <img src={item.image} style={{width: 50,height:50}}/>
+              {/* <div className="container-fluid"> */}
+              <div className="row" key={item.id}>
+                <div className="col-4">
+                  <img src={item.image} style={{width: 50,height:50}} alt=""/>
                 </div>
-                <div class="col-6">
+                <div className="col-6">
                   <div>{item.name}</div>
                   <div>{item.description}</div>
                 </div>
-                <div class="col-2">
+                <div className="col-2">
+                  <div>{item.description}</div>
                   <Button onClick={() =>  deleteItem(item)} variant="outline-primary">Delete</Button>
                 </div>
-              </div>              
               </div>              
             </Card.Body>
             </Card>
@@ -86,32 +86,35 @@ function App() {
         }
         </div>
 
-      <div class="container-fluid">
+      {/* <div class="container-fluid"> */}
       <div class="row">
         <div class="col-3">
+          <input type="file" onChange={onChangeFile}
+          />
+        </div>
+        <div class="col-2">
+          <input
+            value={formData.name} placeholder="name"
+            onChange={e => setFormData({ ...formData, 'name': e.target.value})}
+          />
+        </div>
+        <div class="col-2">
+          <input
+            value={formData.description} placeholder="description"
+            onChange={e => setFormData({ ...formData, 'description': e.target.value})}
+          />
+        </div>
+        <div class="col-3">
+          <input
+            value={formData.description} placeholder="urlzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
+            onChange={e => setFormData({ ...formData, 'description': e.target.value})}
+          />
+        </div>
+        <div class="col-2">
           <Button onClick={createItem} variant="outline-primary">ADD</Button>
         </div>
-        <div class="col-3">
-          <input
-            onChange={e => setFormData({ ...formData, 'name': e.target.value})}
-            placeholder="name"
-            value={formData.name}
-          />
-        </div>
-        <div class="col-3">
-          <input
-            onChange={e => setFormData({ ...formData, 'description': e.target.value})}
-            placeholder="description"
-            value={formData.description}
-          />
-        </div>
-        <div class="col-3">
-          <input
-            type="file"
-            onChange={onChange}
-          />
-        </div>
-      </div>              
+
+      {/* </div>               */}
       </div>              
 
       <AmplifySignOut />
