@@ -9,8 +9,8 @@ import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 
 
-const initialFormState = { name: '', description: '' }
-//const initialFormState = { name: '', description: '', url:'' }
+//const initialFormState = { name: '', description: '' }
+const initialFormState = { name: '', description: '', url:'' }
 
 function App() {
   const [items, setItems] = useState([]);
@@ -60,7 +60,7 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Food Stock 0420</h1>
+      <h1>Food Stock 0421</h1>
       <div style={{marginBottom: 30}}>
         {
           items.map(item => (

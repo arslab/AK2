@@ -8,6 +8,7 @@ export const onCreateItem = /* GraphQL */ `
       name
       description
       image
+      url
       createdAt
       updatedAt
     }
@@ -20,6 +21,7 @@ export const onUpdateItem = /* GraphQL */ `
       name
       description
       image
+      url
       createdAt
       updatedAt
     }
@@ -32,6 +34,7 @@ export const onDeleteItem = /* GraphQL */ `
       name
       description
       image
+      url
       createdAt
       updatedAt
     }
