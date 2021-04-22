@@ -8,6 +8,7 @@ export const getItem = /* GraphQL */ `
       name
       description
       image
+      imagepath
       url
       createdAt
       updatedAt
@@ -26,6 +27,7 @@ export const listItems = /* GraphQL */ `
         name
         description
         image
+        imagepath
         url
         createdAt
         updatedAt

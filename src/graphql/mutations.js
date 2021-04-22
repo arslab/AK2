@@ -11,6 +11,7 @@ export const createItem = /* GraphQL */ `
       name
       description
       image
+      imagepath
       url
       createdAt
       updatedAt
@@ -27,6 +28,7 @@ export const updateItem = /* GraphQL */ `
       name
       description
       image
+      imagepath
       url
       createdAt
       updatedAt
@@ -43,6 +45,7 @@ export const deleteItem = /* GraphQL */ `
       name
       description
       image
+      imagepath
       url
       createdAt
       updatedAt

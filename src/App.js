@@ -27,9 +27,8 @@ function App() {
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
       if (item.image) {
-        //const image = await Storage.get(item.image);
         const imageUrl = await Storage.get(item.image);
-        item.image = imageUrl;
+        item.imagepath = imageUrl;
       }
       return item;
     }))
@@ -41,7 +40,7 @@ function App() {
     await API.graphql({ query: createItemMutation, variables: { input: formData } });
     if (formData.image) {
       const imageUrl = await Storage.get(formData.image);
-      formData.image = imageUrl;
+      formData.imagepath = imageUrl;
     }
     setItems([ ...items, formData ]);
     setFormData(initialFormState);
@@ -62,7 +61,8 @@ function App() {
   }
 
   const editItem = (item) => {
-    setFormData({ image: item.image, name: item.name, description: item.description, url:item.url});
+    setFormData({ image: item.image, imagepath:   item.imagepath,
+                  name:  item.name,  description: item.description, url:item.url});
   }
 
   return (
@@ -75,7 +75,7 @@ function App() {
             <Card.Body>
               <div className="row" key={item.id} onClick={() => editItem(item)}>
                 <div className="col-4">
-                  <img src={item.image} className="AppImage" alt=""/>
+                  <img src={item.imagepath} className="AppImage" alt=""/>
                 </div>
                 <div className="col-6">
                   <div>{item.name}</div>
@@ -99,7 +99,6 @@ function App() {
         }
         </div>
 
-      {/* <div class="row"> */}
       <div class="AppInput">
         <div class="col-2 m-1">
         {/* <div class="col-2 m-1" style={{background: "#000000"}}> */}
@@ -108,10 +107,14 @@ function App() {
         </div>
         <div class="col-12 m-1">
           <input
-            readOnly
-            className="form-control"
-            id="itemimage" 
+            readOnly className="form-control" id="itemimage" 
             value={formData.image} placeholder="image filename"
+          />
+        </div>
+        <div class="col-12 m-1">
+          <input
+            readOnly className="form-control" id="itemimagepath" 
+            value={formData.imagepath} placeholder="image path"
           />
         </div>
         <div class="col-2 m-1">
