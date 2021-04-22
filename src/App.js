@@ -66,27 +66,38 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <h1>Food Stock 0422</h1>
+    <div className="mt-5 mb-5 container-fluid AppBg0">
+
+      <header className="fixed-top AppHeader AppBg2">
+            <div className="col-4">Food Stock 0422</div>
+            <div className="col-6">
+              <div>在庫</div>
+              <div>賞味期限</div>
+            </div>
+            <div className="col-2">再注文</div>
+      </header>
+
       <div style={{marginBottom: 30}}>
         {
           items.map(item => (
             <Card>
-            <Card.Body>
+            <Card.Body className="AppBg1">
               <div className="row" key={item.id} onClick={() => editItem(item)}>
-                <div className="col-4">
+                <div className="col-4">                      {/* イメージ */}
                   <img src={item.imagepath} className="AppImage" alt=""/>
+                  <div>{item.name}</div>                      {/* アイテム名 */}
                 </div>
                 <div className="col-6">
-                  <div>{item.name}</div>
-                  <div>{item.description}</div>
+                  <div>{item.name}</div>                      {/* アイテム名 */}
+                  <div>{item.description}</div>               {/* 賞味期限   */}
                 </div>
 
-                <div className="col-2">
+                <div className="col-2">                      {/* Amazonボタン */}
                   <a className="btn btn-primary m-1" href={item.url} role="button">
                     <FontAwesomeIcon icon={faAmazon} />
                   </a>
-                  <button type="button" 
+                                                              {/* 削除ボタン */}
+                  <button type="button"
                     onClick={() =>  deleteItem(item)} className="btn btn-primary">
                     <FontAwesomeIcon icon={faTrash} />
                   </button>
@@ -100,7 +111,7 @@ function App() {
         </div>
 
       <div class="AppInput">
-        <div class="col-2 m-1">
+        <div class="col-2 m-1">                       {/* イメージファイル */}
           <input type="file" onChange={onChangeFile}
           />
         </div>
@@ -110,31 +121,31 @@ function App() {
             value={formData.image} placeholder="image filename"
           />
         </div>
-        <div class="col-12 m-1">
+        <div class="col-12 m-1">                       {/* イメージfilepath */}
           <input
             readOnly className="form-control" id="itemimagepath" 
             value={formData.imagepath} placeholder="image path"
           />
         </div>
-        <div class="col-2 m-1">
+        <div class="col-2 m-1">                       {/* アイテム名 */}
           <input
             value={formData.name} placeholder="item name" size="40"
             onChange={e => setFormData({ ...formData, 'name': e.target.value})}
           />
         </div>
-        <div class="col-2 m-1">
+        <div class="col-2 m-1">                       {/* 賞味期限 */}
           <input
             value={formData.description} placeholder="賞味期限"
             onChange={e => setFormData({ ...formData, 'description': e.target.value})}
           />
         </div>
-        <div class="col-2 m-1">
+        <div class="col-2 m-1">                       {/* Amazon URL */}
           <input
             value={formData.url} placeholder="amazon url" size="40"
             onChange={e => setFormData({ ...formData, 'url': e.target.value})}
           />
         </div>
-        <div class="col-2 m-1" align="left">
+        <div class="col-2 m-1" align="left">          {/* ADD ボタン */}
           <Button onClick={createItem} variant="primary">ADD</Button>
         </div>
 
