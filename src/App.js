@@ -101,7 +101,6 @@ function App() {
 
       <div class="AppInput">
         <div class="col-2 m-1">
-        {/* <div class="col-2 m-1" style={{background: "#000000"}}> */}
           <input type="file" onChange={onChangeFile}
           />
         </div>
