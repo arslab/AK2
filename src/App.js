@@ -7,9 +7,11 @@ import { createItem as createItemMutation, deleteItem as deleteItemMutation } fr
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+//import { faEdit,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
+import { faAmazon } from "@fortawesome/free-brands-svg-icons";
 
-
-//const initialFormState = { name: '', description: '' }
 const initialFormState = { name: '', description: '', url:'' }
 
 function App() {
@@ -25,8 +27,9 @@ function App() {
     const itemsFromAPI = apiData.data.listItems.items;
     await Promise.all(itemsFromAPI.map(async item => {
       if (item.image) {
-        const image = await Storage.get(item.image);
-        item.image = image;
+        //const image = await Storage.get(item.image);
+        const imageUrl = await Storage.get(item.image);
+        item.image = imageUrl;
       }
       return item;
     }))
@@ -37,8 +40,8 @@ function App() {
     if (!formData.name || !formData.description) return;
     await API.graphql({ query: createItemMutation, variables: { input: formData } });
     if (formData.image) {
-      const image = await Storage.get(formData.image);
-      formData.image = image;
+      const imageUrl = await Storage.get(formData.image);
+      formData.image = imageUrl;
     }
     setItems([ ...items, formData ]);
     setFormData(initialFormState);
@@ -58,27 +61,37 @@ function App() {
     fetchItems();
   }
 
+  const editItem = (item) => {
+    setFormData({ image: item.image, name: item.name, description: item.description, url:item.url});
+  }
+
   return (
     <div className="App">
-      <h1>Food Stock 0421</h1>
+      <h1>Food Stock 0422</h1>
       <div style={{marginBottom: 30}}>
         {
           items.map(item => (
             <Card>
             <Card.Body>
-              {/* <div className="container-fluid"> */}
-              <div className="row" key={item.id}>
+              <div className="row" key={item.id} onClick={() => editItem(item)}>
                 <div className="col-4">
-                  <img src={item.image} style={{width: 50,height:50}} alt=""/>
+                  <img src={item.image} className="AppImage" alt=""/>
                 </div>
                 <div className="col-6">
                   <div>{item.name}</div>
                   <div>{item.description}</div>
                 </div>
+
                 <div className="col-2">
-                  <div>{item.description}</div>
-                  <Button onClick={() =>  deleteItem(item)} variant="outline-primary">Delete</Button>
+                  <a className="btn btn-primary m-1" href={item.url} role="button">
+                    <FontAwesomeIcon icon={faAmazon} />
+                  </a>
+                  <button type="button" 
+                    onClick={() =>  deleteItem(item)} className="btn btn-primary">
+                    <FontAwesomeIcon icon={faTrash} />
+                  </button>
                 </div>
+
               </div>              
             </Card.Body>
             </Card>
@@ -86,35 +99,43 @@ function App() {
         }
         </div>
 
-      {/* <div class="container-fluid"> */}
-      <div class="row">
-        <div class="col-3">
+      {/* <div class="row"> */}
+      <div class="AppInput">
+        <div class="col-2 m-1">
+        {/* <div class="col-2 m-1" style={{background: "#000000"}}> */}
           <input type="file" onChange={onChangeFile}
           />
         </div>
-        <div class="col-2">
+        <div class="col-12 m-1">
           <input
-            value={formData.name} placeholder="name"
+            readOnly
+            className="form-control"
+            id="itemimage" 
+            value={formData.image} placeholder="image filename"
+          />
+        </div>
+        <div class="col-2 m-1">
+          <input
+            value={formData.name} placeholder="item name" size="40"
             onChange={e => setFormData({ ...formData, 'name': e.target.value})}
           />
         </div>
-        <div class="col-2">
+        <div class="col-2 m-1">
           <input
-            value={formData.description} placeholder="description"
+            value={formData.description} placeholder="賞味期限"
             onChange={e => setFormData({ ...formData, 'description': e.target.value})}
           />
         </div>
-        <div class="col-3">
+        <div class="col-2 m-1">
           <input
-            value={formData.description} placeholder="urlzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz"
-            onChange={e => setFormData({ ...formData, 'description': e.target.value})}
+            value={formData.url} placeholder="amazon url" size="40"
+            onChange={e => setFormData({ ...formData, 'url': e.target.value})}
           />
         </div>
-        <div class="col-2">
-          <Button onClick={createItem} variant="outline-primary">ADD</Button>
+        <div class="col-2 m-1" align="left">
+          <Button onClick={createItem} variant="primary">ADD</Button>
         </div>
 
-      {/* </div>               */}
       </div>              
 
       <AmplifySignOut />

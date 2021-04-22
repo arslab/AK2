@@ -2,7 +2,7 @@
   text-align: center;
 }
 
-.App-logo {
+/* .App-logo {
   height: 40vmin;
   pointer-events: none;
 }
@@ -35,4 +35,14 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+.AppInput {
+  background: #fdf6b5;
 }
+.AppImage {
+  width: auto;
+  height: 50px;
+}
+/* display: flex;
+justify-content: flex-start; */
