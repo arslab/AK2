@@ -1,4 +1,5 @@
 import './App.css';
+import './AlStock.css';
 import { listItems } from './graphql/queries';
 import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
 
@@ -16,6 +17,35 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { faAmazon } from "@fortawesome/free-brands-svg-icons";
 
 const initialFormState = { name: '', description: '', url:'' }
+
+function AlStockBar(props) {
+  if(props.stock==="1") {
+    return (
+      <div className="row">
+        <div className="AlBarR col">{props.stock}</div>
+        <div className="AlBarW col">{props.stock}</div>
+        <div className="AlBarW col">{props.stock}</div>
+      </div>
+    )
+  }
+  else if(props.stock==="2") {
+    return (
+      <div className="row">
+        <div className="AlBarY col">{props.stock}</div>
+        <div className="AlBarY col">{props.stock}</div>
+        <div className="AlBarW col">{props.stock}</div>
+      </div>
+    )
+  }
+  else 
+  return (
+      <div className="row">
+        <div className="AlBarG col">{props.stock}</div>
+        <div className="AlBarG col">{props.stock}</div>
+        <div className="AlBarG col">{props.stock}</div>
+      </div>
+    )
+}
 
 function AlStock() {
   const [items, setItems] = useState([]);
@@ -93,6 +123,12 @@ function AlStock() {
                 <div className="col-6">
                   <div>{item.name}</div>                      {/* アイテム名 */}
                   <div>{item.description}</div>               {/* 賞味期限   */}
+                  <AlStockBar stock="2"></AlStockBar>
+                  {/* <div className="row">
+                    <div className="AlBarR col">1</div>
+                    <div className="AlBarY col">2</div>
+                    <div className="AlBarG col">3</div>
+                  </div> */}
                 </div>
 
                 <div className="col-2">                      {/* Amazonボタン */}
