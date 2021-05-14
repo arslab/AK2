@@ -10,6 +10,9 @@ export const onCreateItem = /* GraphQL */ `
       image
       imagepath
       url
+      limit
+      life
+      bal
       createdAt
       updatedAt
     }
@@ -24,6 +27,9 @@ export const onUpdateItem = /* GraphQL */ `
       image
       imagepath
       url
+      limit
+      life
+      bal
       createdAt
       updatedAt
     }
@@ -38,6 +44,9 @@ export const onDeleteItem = /* GraphQL */ `
       image
       imagepath
       url
+      limit
+      life
+      bal
       createdAt
       updatedAt
     }

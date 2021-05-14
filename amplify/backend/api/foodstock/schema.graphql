@@ -5,4 +5,7 @@ type Item @model {
   image: String
   imagepath: String
   url: String
+  limit: String
+  life: String
+  bal: String
 }

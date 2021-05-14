@@ -10,6 +10,9 @@ export const getItem = /* GraphQL */ `
       image
       imagepath
       url
+      limit
+      life
+      bal
       createdAt
       updatedAt
     }
@@ -29,6 +32,9 @@ export const listItems = /* GraphQL */ `
         image
         imagepath
         url
+        limit
+        life
+        bal
         createdAt
         updatedAt
       }

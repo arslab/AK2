@@ -2,6 +2,7 @@ import './App.css';
 import './AlStock.css';
 import { listItems } from './graphql/queries';
 import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
+import { updateItem as updateItemMutation } from './graphql/mutations';
 
 import React, { useState, useEffect } from 'react';
 
@@ -18,11 +19,16 @@ import { faAmazon } from "@fortawesome/free-brands-svg-icons";
 
 const initialFormState = { name: '', description: '', url:'' }
 
+function setStock(stock) {
+  return 1;
+}
+
 function AlStockBar(props) {
   if(props.stock==="1") {
     return (
       <div className="row">
-        <div className="AlBarR col">{props.stock}</div>
+        {/* <div className="AlBarR col" onClick={() => editItem(item)}>{props.stock}</div> */}
+        <div className="AlBarR col" onClick={setStock()}>{props.stock}</div>
         <div className="AlBarW col">{props.stock}</div>
         <div className="AlBarW col">{props.stock}</div>
       </div>
@@ -79,6 +85,16 @@ function AlStock() {
     setFormData(initialFormState);
   }
 
+  async function updateItem() {
+    if (!formData.name || !formData.description) return;
+    await API.graphql({ query: updateItemMutation, variables: { input: formData } });
+    if (formData.image) {
+      const imageUrl = await Storage.get(formData.image);
+      formData.imagepath = imageUrl;
+    }
+    setItems([ ...items, formData ]);
+    setFormData(initialFormState);
+  }
   async function deleteItem({ id }) {
     const newItemsArray = items.filter(item => item.id !== id);
     setItems(newItemsArray);
@@ -95,7 +111,9 @@ function AlStock() {
 
   const editItem = (item) => {
     setFormData({ image: item.image, imagepath:   item.imagepath,
-                  name:  item.name,  description: item.description, url:item.url});
+                  name:  item.name,  description: item.description, 
+                  life:  item.life,  bal:         item.bal, 
+                  url:item.url});
   }
 
   return (
@@ -179,6 +197,18 @@ function AlStock() {
             onChange={e => setFormData({ ...formData, 'description': e.target.value})}
           />
         </div>
+        <div class="col-2 m-1">                       {/* life */}
+          <input
+            value={formData.life} placeholder="life"
+            onChange={e => setFormData({ ...formData, 'life': e.target.value})}
+          />
+        </div>
+        <div class="col-2 m-1">                       {/* bal */}
+          <input
+            value={formData.bal} placeholder="bal"
+            onChange={e => setFormData({ ...formData, 'bal': e.target.value})}
+          />
+        </div>
         <div class="col-2 m-1">                       {/* Amazon URL */}
           <input
             value={formData.url} placeholder="amazon url" size="40"
@@ -187,6 +217,9 @@ function AlStock() {
         </div>
         <div class="col-2 m-1" align="left">          {/* ADD ボタン */}
           <Button onClick={createItem} variant="primary">ADD</Button>
+        </div>
+        <div class="col-2 m-1" align="left">          {/* ADD ボタン */}
+          <Button onClick={updateItem} variant="primary">UPDATE</Button>
         </div>
 
       </div>              
