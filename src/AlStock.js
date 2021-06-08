@@ -17,38 +17,38 @@ import { faTrash } from "@fortawesome/free-solid-svg-icons";
 //import { faEdit,faPlusCircle } from "@fortawesome/free-solid-svg-icons";
 import { faAmazon } from "@fortawesome/free-brands-svg-icons";
 
-const initialFormState = { name: '', description: '', url:'' }
+const initialFormState = {name: '', description: '', image:'',  imagepath:'',  
+                          limit: '', life:'', bal:'', url:'' }
 
-function setStock(stock) {
-  return 1;
+function setBal(props, bal) {
+  props.item.bal = bal;
 }
 
 function AlStockBar(props) {
-  if(props.stock==="1") {
+  if(props.item.bal==="1") {
     return (
       <div className="row">
-        {/* <div className="AlBarR col" onClick={() => editItem(item)}>{props.stock}</div> */}
-        <div className="AlBarR col" onClick={setStock()}>{props.stock}</div>
-        <div className="AlBarW col">{props.stock}</div>
-        <div className="AlBarW col">{props.stock}</div>
+        <div className="AlBarR col" onClick={() => setBal(props,"1")}>{props.item.bal}</div>
+        <div className="AlBarW col">{props.item.bal}</div>
+        <div className="AlBarW col">{props.item.bal}</div>
       </div>
     )
   }
-  else if(props.stock==="2") {
+  else if(props.item.bal==="2") {
     return (
       <div className="row">
-        <div className="AlBarY col">{props.stock}</div>
-        <div className="AlBarY col">{props.stock}</div>
-        <div className="AlBarW col">{props.stock}</div>
+        <div className="AlBarY col">{props.item.bal}</div>
+        <div className="AlBarY col">{props.item.bal}</div>
+        <div className="AlBarW col">{props.item.bal}</div>
       </div>
     )
   }
   else 
   return (
       <div className="row">
-        <div className="AlBarG col">{props.stock}</div>
-        <div className="AlBarG col">{props.stock}</div>
-        <div className="AlBarG col">{props.stock}</div>
+        <div className="AlBarG col">{props.item.bal}</div>
+        <div className="AlBarG col">{props.item.bal}</div>
+        <div className="AlBarG col">{props.item.bal}</div>
       </div>
     )
 }
@@ -92,9 +92,8 @@ function AlStock() {
       const imageUrl = await Storage.get(formData.image);
       formData.imagepath = imageUrl;
     }
-    setItems([ ...items, formData ]);
-    setFormData(initialFormState);
   }
+
   async function deleteItem({ id }) {
     const newItemsArray = items.filter(item => item.id !== id);
     setItems(newItemsArray);
@@ -110,17 +109,23 @@ function AlStock() {
   }
 
   const editItem = (item) => {
-    setFormData({ image: item.image, imagepath:   item.imagepath,
+    if (!item.image)     { item.image = ''; }
+    if (!item.imagepath) { item.imagepath = ''; }
+    if (!item.life)      { item.life  = ''; }
+    if (!item.bal)       { item.bal   = ''; }
+    if (!item.url)       { item.url   = ''; }
+    setFormData({ id: item.id,
                   name:  item.name,  description: item.description, 
+                  image: item.image, imagepath:   item.imagepath,
                   life:  item.life,  bal:         item.bal, 
-                  url:item.url});
+                  url:   item.url  });
   }
 
   return (
     <div className="mt-5 mb-5 container-fluid AppBg0">
 
       <header className="fixed-top AppHeader AppBg2">
-            <div className="col-4">Food Stock 0422</div>
+            <div className="col-4">Food Stock 0608</div>
             <div className="col-6">
               <div>在庫</div>
               <div>賞味期限</div>
@@ -131,9 +136,9 @@ function AlStock() {
       <div style={{marginBottom: 30}}>
         {
           items.map(item => (
-            <Card>
+            <Card key={item.id}>
             <Card.Body className="AppBg1">
-              <div className="row" key={item.id} onClick={() => editItem(item)}>
+              <div className="row" onClick={() => editItem(item)}>
                 <div className="col-4">                      {/* イメージ */}
                   <img src={item.imagepath} className="AppImage" alt=""/>
                   <div>{item.name}</div>                      {/* アイテム名 */}
@@ -141,12 +146,7 @@ function AlStock() {
                 <div className="col-6">
                   <div>{item.name}</div>                      {/* アイテム名 */}
                   <div>{item.description}</div>               {/* 賞味期限   */}
-                  <AlStockBar stock="2"></AlStockBar>
-                  {/* <div className="row">
-                    <div className="AlBarR col">1</div>
-                    <div className="AlBarY col">2</div>
-                    <div className="AlBarG col">3</div>
-                  </div> */}
+                  <AlStockBar item={item}></AlStockBar>
                 </div>
 
                 <div className="col-2">                      {/* Amazonボタン */}
@@ -166,59 +166,70 @@ function AlStock() {
             </Card>
           ))
         }
-        </div>
+      </div>
 
-      <div class="AppInput">
-        <div class="col-2 m-1">                       {/* イメージファイル */}
+      <div className="AppInput">
+        {/* イメージファイル */}
+        <div className="col-2 m-1">                    
           <input type="file" onChange={onChangeFile}
           />
         </div>
-        <div class="col-12 m-1">
+        <div className="col-12 m-1">
           <input
             readOnly className="form-control" id="itemimage" 
             value={formData.image} placeholder="image filename"
           />
         </div>
-        <div class="col-12 m-1">                       {/* イメージfilepath */}
+        {/* イメージfilepath */}
+        <div className="col-12 m-1">
           <input
             readOnly className="form-control" id="itemimagepath" 
             value={formData.imagepath} placeholder="image path"
           />
         </div>
-        <div class="col-2 m-1">                       {/* アイテム名 */}
+        {/* アイテム名 */}
+        <div className="col-2 m-1">
           <input
             value={formData.name} placeholder="item name" size="40"
             onChange={e => setFormData({ ...formData, 'name': e.target.value})}
           />
         </div>
-        <div class="col-2 m-1">                       {/* 賞味期限 */}
+
+        {/* 賞味期限 */}
+        <div className="col-2 m-1">
           <input
             value={formData.description} placeholder="賞味期限"
             onChange={e => setFormData({ ...formData, 'description': e.target.value})}
           />
         </div>
-        <div class="col-2 m-1">                       {/* life */}
+
+        {/* life */}
+        <div className="col-2 m-1">                       
           <input
             value={formData.life} placeholder="life"
             onChange={e => setFormData({ ...formData, 'life': e.target.value})}
           />
         </div>
-        <div class="col-2 m-1">                       {/* bal */}
+        
+        {/* bal */}
+        <div className="col-2 m-1">
           <input
             value={formData.bal} placeholder="bal"
             onChange={e => setFormData({ ...formData, 'bal': e.target.value})}
           />
         </div>
-        <div class="col-2 m-1">                       {/* Amazon URL */}
+
+        {/* Amazon URL */}
+        <div className="col-2 m-1"> 
           <input
             value={formData.url} placeholder="amazon url" size="40"
             onChange={e => setFormData({ ...formData, 'url': e.target.value})}
           />
         </div>
-        <div class="col-2 m-1" align="left">          {/* ADD ボタン */}
+        <div className="col-2 m-1" align="left">          {/* ADD ボタン */}
           <Button onClick={createItem} variant="primary">ADD</Button>
         </div>
-        <div class="col-2 m-1" align="left">          {/* ADD ボタン */}
+        <div className="col-2 m-1" align="left">          {/* ADD ボタン */}
           <Button onClick={updateItem} variant="primary">UPDATE</Button>
         </div>
 
