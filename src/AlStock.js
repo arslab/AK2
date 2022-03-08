@@ -240,5 +240,6 @@ function AlStock() {
   );
 }
 
-export default withAuthenticator(AlStock);
+//export default withAuthenticator(AlStock);
+export default AlStock;
 // export default App;
