@@ -1,5 +1,5 @@
 import './App.css';
-import './AlStock.css';
+import './Kintai.css';
 import { listItems } from './graphql/queries';
 import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
 import { updateItem as updateItemMutation } from './graphql/mutations';
@@ -24,7 +24,7 @@ function setBal(props, bal) {
   props.item.bal = bal;
 }
 
-function AlStockBar(props) {
+function KintaiBar(props) {
   if(props.item.bal==="1") {
     return (
       <div className="row">
@@ -53,7 +53,7 @@ function AlStockBar(props) {
     )
 }
 
-function AlStock() {
+function Kintai() {
   const [items, setItems] = useState([]);
   const [formData, setFormData] = useState(initialFormState);
 
@@ -124,16 +124,16 @@ function AlStock() {
   return (
     <div className="mt-5 mb-5 container-fluid AppBg0">
 
-      <header className="fixed-top AppHeader AppBg2">
+      {/* <header className="fixed-top AppHeader AppBg2">
             <div className="col-4">Food Stock 0608</div>
             <div className="col-6">
               <div>在庫</div>
               <div>賞味期限</div>
             </div>
             <div className="col-2">再注文</div>
-      </header>
+      </header> */}
 
-      <div style={{marginBottom: 30}}>
+      <div style={{marginTop: 100,marginBottom: 30}}>
         {
           items.map(item => (
             <Card key={item.id}>
@@ -145,8 +145,8 @@ function AlStock() {
                 </div>
                 <div className="col-6">
                   <div>{item.name}</div>                      {/* アイテム名 */}
-                  <div>{item.description}</div>               {/* 賞味期限   */}
-                  <AlStockBar item={item}></AlStockBar>
+                  <div>{item.description}</div>               {/* PPPPP   */}
+                  <KintaiBar item={item}></KintaiBar>
                 </div>
 
                 <div className="col-2">                      {/* Amazonボタン */}
@@ -195,37 +195,37 @@ function AlStock() {
           />
         </div>
 
-        {/* 賞味期限 */}
+        {/* PPPPPP */}
         <div className="col-2 m-1">
           <input
-            value={formData.description} placeholder="賞味期限"
+            value={formData.description} placeholder="PPPPP"
             onChange={e => setFormData({ ...formData, 'description': e.target.value})}
           />
         </div>
 
         {/* life */}
-        <div className="col-2 m-1">                       
+        {/* <div className="col-2 m-1">                       
           <input
             value={formData.life} placeholder="life"
             onChange={e => setFormData({ ...formData, 'life': e.target.value})}
           />
-        </div>
+        </div> */}
         
         {/* bal */}
-        <div className="col-2 m-1">
+        {/* <div className="col-2 m-1">
           <input
             value={formData.bal} placeholder="bal"
             onChange={e => setFormData({ ...formData, 'bal': e.target.value})}
           />
-        </div>
+        </div> */}
 
         {/* Amazon URL */}
-        <div className="col-2 m-1"> 
+        {/* <div className="col-2 m-1"> 
           <input
             value={formData.url} placeholder="amazon url" size="40"
             onChange={e => setFormData({ ...formData, 'url': e.target.value})}
           />
-        </div>
+        </div> */}
         <div className="col-2 m-1" align="left">          {/* ADD ボタン */}
           <Button onClick={createItem} variant="primary">ADD</Button>
         </div>
@@ -240,6 +240,5 @@ function AlStock() {
   );
 }
 
-//export default withAuthenticator(AlStock);
-export default AlStock;
-// export default App;
+//export default withAuthenticator(Kintai);
+export default Kintai;
