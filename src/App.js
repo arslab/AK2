@@ -1,18 +1,28 @@
 import React from 'react';
 import './App.css';
+import Box from '@mui/material/Box';
 import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
 import Kintai from './Kintai';
-import { withAuthenticator } from '@aws-amplify/ui-react';
-import 'bootstrap/dist/css/bootstrap.min.css';
+//import { withAuthenticator } from '@aws-amplify/ui-react';
+//import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
+  // return (
+  //   <div className="mt-5 mb-5 container-fluid AppBg0">
+  //     <AppHeader/>
+  //     <Kintai/>
+  //     <AppFooter/>
+  //   </div>
+  // );
   return (
-    <div className="mt-5 mb-5 container-fluid AppBg0">
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
       <AppHeader/>
-      <Kintai/>
+      <Box sx={{ py: 2, flex: 1, backgroundColor: (theme) => theme.palette.grey[100]}}>
+        <Kintai/>
+      </Box>
       <AppFooter/>
-    </div>
+    </Box>
   );
 }
 
