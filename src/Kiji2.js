@@ -1,8 +1,8 @@
 import React from 'react';
-import './App.css';
+import './Kiji.css';
 import Box from '@mui/material/Box';
-import AppHeader from './AppHeader';
-import AppFooter from './AppFooter';
+import AppHeader from './KijiHeader';
+import AppFooter from './KijiFooter';
 import Kintai from './Kintai';
 //import { withAuthenticator } from '@aws-amplify/ui-react';
 //import 'bootstrap/dist/css/bootstrap.min.css';

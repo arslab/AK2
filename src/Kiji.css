@@ -1,0 +1,48 @@
+.App {
+  text-align: center;
+}
+
+.AppHeader {
+  color: #ffffff;
+  display: flex;
+  width: 100%;
+  font-family: Kanit, sans-serif;
+  font-size: 1.2em;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.AppFooter {
+  background: #d8dfd3;
+  color: #5e5e5e;
+  display: flex;
+  width: 100%;
+  font-family: Kanit, sans-serif;
+  font-size: 1.5em;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+/* header backgtound / foreground */
+.AppBg0 { background: #ffffff; }
+.AppBg1 { background: #f1f1f1; }
+.AppBg2 { background: #359210; }
+
+.AppInput {
+  background: #fdf6b5;
+}
+
+.AppImage {
+  width: auto;
+  height: 50px;
+}
+/* display: flex;
+justify-content: flex-start; */
+
+.DebugDiv1 {
+  background: #ff2da8;
+}
+
+.DebugDiv2 {
+  background: #d52dff;
+}
