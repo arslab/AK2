@@ -4,7 +4,8 @@ import './Kintai.css';
 // import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
 // import { updateItem as updateItemMutation } from './graphql/mutations';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState  } from 'react';
+//import React, { useEffect } from 'react';
 
 // import { API, Storage } from 'aws-amplify';
 // import { withAuthenticator} from '@aws-amplify/ui-react';
