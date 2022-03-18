@@ -68,7 +68,7 @@ function Taka1() {
         <Grid container>
           {employees.map((emp, index) => (
             <Grid item className={classes.grid} key={emp.EmpNo}>
-              {emp.Status == '1' ?
+              {emp.Status === '1' ?
                 <Button
                   variant="contained"
                   color="primary"
