@@ -5,6 +5,8 @@ import { useHistory } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
 import {Card, CardHeader, CardContent, CardActions} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
+import Typography from '@mui/material/Typography';
+
 
 //import AppHeader from './AppHeader';
 import AppHeader from './TakaHeader';
@@ -45,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
   card_content: {
     fontSize: "20px",
+    color:    "#444444",
     backgroundColor: "#FFFFFF"
   },
 }))
@@ -66,10 +69,11 @@ function Taka1() {
     fetchItems();                              // データを再取得
     const interval = setInterval(() => {
         setDateTime(new Date());               // datetimeを更新
-    }, 1000);                                  // 1秒ごと
+    }, 1000);                                  // ミリ秒ごと
     return () => clearInterval(interval);      // 再描画が終わったらinterval（タイマー）停止
-  }, [datetime]);                              // datetimeが更新されたらeffectを実行
+  }, [datetime]);                              // datetimeが更新されたらこの関数(effect)を実行
 
+  // 社員勤怠状態をAPIから取得し、employeesにセットする
   async function fetchItems() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
@@ -79,41 +83,46 @@ function Taka1() {
     .then(response => response.text())
     .then(async(response) => {
       const apiData = JSON.parse(response);
-        setEmployees(apiData);
-        console.log(apiData);
-      })
+      setEmployees(apiData);
+      console.log(apiData);
+    })
     .catch(error => console.log('error', error));
-    //alert(response);
   }
 
   return (
-      <div>
-        <AppHeader title="勤怠サマリー" datetime={datetime.toLocaleTimeString()}/>
-        <Grid container>
-          {employees.map((emp, index) => (
-            <Grid item className={classes.grid} key={emp.EmpNo}>
+    <div>
+      <AppHeader title="勤怠サマリー" datetime={datetime.toLocaleTimeString()}/>
+      <Grid container>
+        {/* 社員の数だけGridを作成する */}
+        {employees.map((emp, index) => (
+          <Grid item className={classes.grid} key={emp.EmpNo}>
+            <Card className={classes.card} onClick={() => selectEmp(index)} >
+              {/* statusによってCardHeaderの色を変える */}
               {emp.Status === '1' ?
-                <Card className={classes.card} onClick={() => selectEmp(index)} >
-                  <CardHeader title={emp.LastName} className={classes.card_header_1} />
-                  <CardContent className={classes.card_content}>
-                    出勤
-                  </CardContent>
-                </Card> 
-                :
-                <Card className={classes.card} onClick={() => selectEmp(index)} >
-                  <CardHeader title={emp.LastName} className={classes.card_header_0} />
-                  <CardContent className={classes.card_content}>
-                    退勤
-                  </CardContent>
-                </Card> 
-            }
-              </Grid>
-          ))}
-        </Grid>
+              <CardHeader title={emp.LastName} className={classes.card_header_1} /> :
+              <CardHeader title={emp.LastName} className={classes.card_header_0} />
+              }
+              <CardContent className={classes.card_content}>
+                {/* statusによって出勤/退勤を表示する */}
+                {emp.Status === '1' ?
+                <Typography variant="h5" component="div">出勤</Typography> :
+                <Typography variant="h5" component="div">退勤</Typography>
+                }
+                {/* 社員データを表示する */}
+                <Typography variant="h8" component="div" sx={{ color: 'text.secondary', fontSize: 16}}>
+                  {emp.EmpNo} {emp.LastName} {emp.FirstName}
+                </Typography>
 
-        <AppFooter/>
-      </div>
-    )
+              </CardContent>
+            </Card> 
+              
+          </Grid>
+        ))}
+      </Grid>
+
+      <AppFooter/>
+    </div>
+  )
 }
 
 export default Taka1  
