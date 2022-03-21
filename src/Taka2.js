@@ -1,27 +1,20 @@
-import React from 'react'
-import './App.css';                  
-import AppHeader from './AppHeader';
+import React from 'react';
+import Box from '@mui/material/Box';
+import AppHeader from './TakaHeader';
 import AppFooter from './AppFooter';
-import Kintai from './Kintai';
-// import { Component } from 'react';
-// import { withRouter } from 'react-router-dom';              // router (画面遷移制御)機能
-// import { useState } from 'react';                           // state（コンポネント単位のデータ保存機能）
-// import { useEffect } from 'react';                           // effect (state変化したときの処理機能)
-// import { useRef } from 'react'; 
-// import { ThemeProvider, createTheme } from '@material-ui/core/styles';
-// import pink from '@material-ui/core/colors/pink';
-// import { Box } from '@material-ui/core';
-// import { Link, useHistory } from 'react-router-dom';
+import Kintai    from './TakaKintai';
 
-class DetailPage extends React.Component {
-  render(){
-    return (
-        <div className="mt-5 mb-5 container-fluid AppBg1">
-        <AppHeader/>
-        <Kintai/>
-        <AppFooter/>
-        </div>
-    )};
+function Taka2(props) {
+
+  return (
+    <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
+      <AppHeader title="個人勤怠記録"/>
+      <Box sx={{ py: 2, flex: 1, backgroundColor: (theme) => theme.palette.grey[100]}}>
+        <Kintai EmpNo={props.location.state.EmpNo}/>
+      </Box>
+      <AppFooter/>
+    </Box>
+  );
 }
 
-export default DetailPage  
+export default Taka2;

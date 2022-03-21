@@ -1,13 +1,13 @@
 import React from 'react'
 import { useState } from 'react';                           // state（コンポネント単位のデータ保存機能）
 import { useEffect } from 'react';                           // effect (state変化したときの処理機能)
-import { Box } from '@material-ui/core';
+import { useHistory } from 'react-router-dom';
 import { makeStyles } from "@material-ui/core/styles";
-import Button from "@material-ui/core/Button";
+import {Card, CardHeader, CardContent, CardActions} from "@material-ui/core";
 import Grid from "@material-ui/core/Grid";
 
-import './App.css';      
-import AppHeader from './AppHeader';
+//import AppHeader from './AppHeader';
+import AppHeader from './TakaHeader';
 import AppFooter from './AppFooter';
 
 const useStyles = makeStyles((theme) => ({
@@ -26,23 +26,49 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "30px",
     margin: theme.spacing(1),
   },
+  card: {
+    marginTop:    theme.spacing(5),
+    marginBottom: theme.spacing(5),
+    width: "250px",
+    height: "200px",
+    margin: theme.spacing(1),
+  },
+  card_header_0: {
+    fontSize: "50px",
+    color:    "#FFFFFF",
+    backgroundColor: "#FF0044"
+  },
+  card_header_1: {
+    fontSize: "50px",
+    color:    "#FFFFFF",
+    backgroundColor: "#00EE00"
+  },
+  card_content: {
+    fontSize: "20px",
+    backgroundColor: "#FFFFFF"
+  },
 }))
-const emps = [
-  {'EmpNo':'11111', 'FirstName':'aaa','LastName':'AAA', 'status':'0' },
-  {'EmpNo':'22222', 'FirstName':'bbb','LastName':'BBB', 'status':'1' }
+const emps = [                                     // 社員出勤状況初期値
+  {'EmpNo':'11111', 'FirstName':'---','LastName':'データ取得中', 'status':'0' }
 ]
-
-const selectEmp = (index) => {
-  console.log("select"+index+emps[index].name);
-}
 
 function Taka1() {
   const classes = useStyles();
+  const history = useHistory();
   const [employees, setEmployees] = useState(emps);  
-  
-  useEffect(() => {
-    fetchItems();
-  }, []);
+  const [datetime,  setDateTime]  = useState(new Date());  
+  const selectEmp = (index) => {
+    // 詳細画面へ遷移する。EmpNoを渡す。
+    history.push({ pathname: '/taka2', state: { EmpNo: employees[index].EmpNo }});  
+  }
+    
+  useEffect(() => {                            // 描画後の処理。タイマーでデータを定期更新する。
+    fetchItems();                              // データを再取得
+    const interval = setInterval(() => {
+        setDateTime(new Date());               // datetimeを更新
+    }, 1000);                                  // 1秒ごと
+    return () => clearInterval(interval);      // 再描画が終わったらinterval（タイマー）停止
+  }, [datetime]);                              // datetimeが更新されたらeffectを実行
 
   async function fetchItems() {
     var myHeaders = new Headers();
@@ -53,7 +79,6 @@ function Taka1() {
     .then(response => response.text())
     .then(async(response) => {
       const apiData = JSON.parse(response);
-        //setItems(apiData);
         setEmployees(apiData);
         console.log(apiData);
       })
@@ -63,31 +88,24 @@ function Taka1() {
 
   return (
       <div>
-        <AppHeader/>
-
+        <AppHeader title="勤怠サマリー" datetime={datetime.toLocaleTimeString()}/>
         <Grid container>
           {employees.map((emp, index) => (
             <Grid item className={classes.grid} key={emp.EmpNo}>
               {emp.Status === '1' ?
-                <Button
-                  variant="contained"
-                  color="primary"
-                  className={classes.button}
-                  onClick={() => selectEmp(index)}
-                >
-                  <Box>{emp.LastName} {emp.FirstName}</Box>
-                  <Box>{": " + emp.Status}</Box>
-                </Button> 
+                <Card className={classes.card} onClick={() => selectEmp(index)} >
+                  <CardHeader title={emp.LastName} className={classes.card_header_1} />
+                  <CardContent className={classes.card_content}>
+                    出勤
+                  </CardContent>
+                </Card> 
                 :
-                <Button
-                  variant="contained"
-                  color="secondary"
-                  className={classes.button}
-                  onClick={() => selectEmp(index)}
-                >
-                <Box>{emp.LastName} {emp.FirstName}</Box>
-                <Box>{": " + emp.Status}</Box>
-              </Button> 
+                <Card className={classes.card} onClick={() => selectEmp(index)} >
+                  <CardHeader title={emp.LastName} className={classes.card_header_0} />
+                  <CardContent className={classes.card_content}>
+                    退勤
+                  </CardContent>
+                </Card> 
             }
               </Grid>
           ))}
@@ -98,4 +116,4 @@ function Taka1() {
     )
 }
 
-export default Taka1  // 画面遷移対象にするので、withRoute()を使う
+export default Taka1  
