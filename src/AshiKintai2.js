@@ -31,7 +31,7 @@ function Kintai() {
       })
     .catch(error => console.log('error', error));
   }
-
+  //データの表示
   function createData() {
     var id=0
     var date='';
@@ -81,7 +81,7 @@ function Kintai() {
     return rows;
   }
   const rows = createData();
-
+  //フィルターのカスタマイズ
   const filterOperators=
   getGridDateOperators().filter(
     (operator) => operator.value==='is' || operator.value==='onOrAfter' || operator.value==='onOrBefore'
@@ -92,12 +92,12 @@ function Kintai() {
     { field: 'inTime', headerName: '出勤時刻', filterable: false},
     { field: 'outTime', headerName: '退勤時刻', filterable: false},
   ];
-
+  //戻るボタン
   let history = useHistory();
   function handleButton() {
     history.goBack();
   }
-
+  //ツールバーのカスタマイズ
   function CustomToolbar() {
     return (
       <GridToolbarContainer>
@@ -110,30 +110,32 @@ function Kintai() {
     <Box sx={{ 
       width:'50%',
       mx:'auto',
-    }}>
+      }}>
       <Stack spacing={2} direction="row">
         <Button variant="contained" disableElevation onClick={() => {handleButton()}}>戻る</Button>
       </Stack>
-      {selectedname}の記録
-    <Box 
-      sx={{ 
-        bgcolor:'#ffffff',
-      }}>
-      <DataGrid
-        autoHeight
-        density={'compact'}
-        rows={rows}
-        columns={columns}
-        pageSize={20}
-        rowsPerPageOptions={[20]}
-        disableColumnSelector
-        disableColumnMenu
-        disableSelectionOnClick
-        components={{
-          Toolbar: CustomToolbar,
-        }}
-      />
-    </Box>
+      <Typography variant="h6">
+        {selectedname}の記録
+      </Typography>
+      <Box 
+        sx={{ 
+          bgcolor:'#ffffff',
+        }}>
+        <DataGrid
+          autoHeight
+          density={'compact'}
+          rows={rows}
+          columns={columns}
+          pageSize={20}
+          rowsPerPageOptions={[20]}
+          disableColumnSelector
+          disableColumnMenu
+          disableSelectionOnClick
+          components={{
+            Toolbar: CustomToolbar,
+          }}
+        />
+      </Box>
     </Box>
   );
 }

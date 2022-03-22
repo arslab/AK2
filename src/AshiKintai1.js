@@ -17,7 +17,8 @@ function Kintai() {
   async function fetchItems() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    var requestOptions = {method: 'POST', headers: myHeaders, redirect: 'follow' };
+    var raw = JSON.stringify({});
+    var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
     fetch("https://7ydtm36vx3.execute-api.ap-northeast-1.amazonaws.com/dev/", requestOptions)
     .then(response => response.text())
     .then(async(response) => {
@@ -26,6 +27,7 @@ function Kintai() {
       })
     .catch(error => console.log('error', error));
   }
+  //フィルターのカスタマイズ
   const filterOperators=
     getGridStringOperators().filter(
       (operator) => operator.value ==='contains'
@@ -36,19 +38,11 @@ function Kintai() {
     { field: 'FullName', headerName: '名前', valueGetter: getFullName, filterOperators: filterOperators},
     { field: 'StatusDesc', headerName: '状況', valueGetter: getStatus, type: 'singleSelect', valueOptions: ['不在', '出勤', '在宅']},
   ];
-  
-  // const rows = [
-  //   {id:'99117',name:'ARS Lab',status:'0'},
-  //   {id:'99118',name:'ARS Lab2',status:'1'},
-  //   {id:'99119',name:'ARS Lab3',status:'2'},
-  //   {id:'99120',name:'ARS Lab',status:'2'},
-  //   {id:'99121',name:'ARS Lab2',status:'1'},
-  //   {id:'99122',name:'ARS Lab3',status:'1'},
-  // ];
+  //フルネームで表示  
   function getFullName(params) {
     return `${params.row.LastName || ''} ${params.row.FirstName || ''}`;
   }
-
+  //ステータスの値によって表示を変える
   function getStatus(params){
     var statusdesc=''
     if(params.row.Status==='0'){
@@ -60,6 +54,7 @@ function Kintai() {
     }
     return statusdesc
   }
+  //ページ遷移
   let history = useHistory();
   function handleClick(params) {
     history.push({
@@ -70,6 +65,7 @@ function Kintai() {
       }
     });
   }
+  //ツールバーのカスタマイズ
   function CustomToolbar(){
     return(
       <GridToolbarContainer>
@@ -83,40 +79,46 @@ function Kintai() {
     <Typography variant="h6">
       出勤状況（{date}時点）
     </Typography>
-    <Box 
-      sx={{ 
-        width:'50%',
-        mx:'auto',
-        bgcolor: '#ffffff',
-        '& .super-app-theme--1': {
-          bgcolor: '#66bb6a',
-        },
-        '& .super-app-theme--1:hover': {
-          bgcolor: '#4caf50'
-        },
-        '& .super-app-theme--2': {
-          bgcolor: '#ffb74d',
-        },
-        '& .super-app-theme--2:hover': {
-          bgcolor: '#ffa726'
-        },
-      }}>
-      <DataGrid
-        autoHeight
-        rows={rows}
-        columns={columns}
-        pageSize={20}
-        rowsPerPageOptions={[20]}
-        getRowId={(row) => row.EmpNo}
-        disableColumnSelector
-        disableColumnMenu
-        components={{
-          Toolbar: CustomToolbar,
-        }}
-        onCellClick={(params,event,details)=>{handleClick(params);}}
-        getRowClassName={(params) => `super-app-theme--${params.row.Status}`}
-      />
-    </Box>
+      <Box 
+        sx={{ 
+          width:'50%',
+          mx:'auto',
+          bgcolor: '#ffffff',
+          '& .super-app-theme--0': {
+            bgcolor: '#ffffff',
+            '&:hover': {
+              bgcolor: '#eeeeee'
+            }
+          },
+          '& .super-app-theme--1': {
+            bgcolor: '#66bb6a',
+            '&:hover': {
+              bgcolor: '#4caf50'
+            }
+          },
+          '& .super-app-theme--2': {
+            bgcolor: '#ffb74d',
+            '&:hover': {
+              bgcolor: '#ffa726'
+            }
+          },
+        }}>
+        <DataGrid
+          autoHeight
+          rows={rows}
+          columns={columns}
+          pageSize={20}
+          rowsPerPageOptions={[20]}
+          getRowId={(row) => row.EmpNo}
+          disableColumnSelector
+          disableColumnMenu
+          components={{
+            Toolbar: CustomToolbar,
+          }}
+          onCellClick={(params,event,details)=>{handleClick(params);}}
+          getRowClassName={(params) => `super-app-theme--${params.row.Status}`}
+        />
+      </Box>
     </Box>
   );
 }
