@@ -3,18 +3,11 @@ import './App.css';
 import Box from '@mui/material/Box';
 import AppHeader from './AppHeader';
 import AppFooter from './AppFooter';
-import Kintai from './Kintai';
+import Kintai from './AshiKintai1';
 //import { withAuthenticator } from '@aws-amplify/ui-react';
-//import 'bootstrap/dist/css/bootstrap.min.css';
 
-function App() {
-  // return (
-  //   <div className="mt-5 mb-5 container-fluid AppBg0">
-  //     <AppHeader/>
-  //     <Kintai/>
-  //     <AppFooter/>
-  //   </div>
-  // );
+//一覧ページ
+function Ashi1() {
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
       <AppHeader/>
@@ -26,4 +19,4 @@ function App() {
   );
 }
 
-export default App;
+export default Ashi1;
