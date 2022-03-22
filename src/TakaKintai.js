@@ -1,18 +1,5 @@
-import './App.css';
-import './Kintai.css';
-// import { listItems } from './graphql/queries';
-// import { createItem as createItemMutation, deleteItem as deleteItemMutation } from './graphql/mutations';
-// import { updateItem as updateItemMutation } from './graphql/mutations';
-
 import React, { useState  } from 'react';
-//import React, { useEffect } from 'react';
-
-// import { API, Storage } from 'aws-amplify';
-// import { withAuthenticator} from '@aws-amplify/ui-react';
-// import { AmplifySignOut } from '@aws-amplify/ui-react';
-//import 'bootstrap/dist/css/bootstrap.min.css';
-//import Button from 'react-bootstrap/Button';
-//import Card from 'react-bootstrap/Card';
+import { useEffect } from 'react';
 
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -28,23 +15,22 @@ import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
 
-function Kintai() {
-  const [items, setItems] = useState([]);
-  // const [formData, setFormData] = useState(initialFormState);
+function Kintai(props) {
+  const [items, setItems] = useState([{Date:"取得中"}]);
   const rowsPerPage = 5
-  const [page, setPage] = React.useState(0);
+  const [page,    setPage]    = React.useState(0);
   const [inputid, setInputid] = React.useState('');
-  const [userid, setUserid] = React.useState('');
+  const [userid,  setUserid]  = React.useState('');
 
-  // useEffect(() => {
-  //   fetchItems();
-  // }, []);
+  useEffect(() => {
+    setInputid(props.EmpNo)
+    setUserid(props.EmpNo)
+    //fetchItems();
+  }, [inputid]);
 
-  //async function fetchItems(useid) {
   async function fetchItems() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
-    //var raw = JSON.stringify({"UserID": "99117"});
     var raw = JSON.stringify({"UserID": inputid});
     var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
     fetch("https://el2gjqf1n3.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
@@ -150,26 +136,7 @@ function Kintai() {
       </Paper>
     </Box>
   );
-
-  // return (
-  //   <div className="mt-5 mb-5 container-fluid AppBg0">
-
-  //     <div style={{marginTop: 100,marginBottom: 30}}>
-  //       {
-  //         items.map(item => (
-  //           <Card key={item.id}>
-  //           <Card.Body className="AppBg1">
-  //                 <div>{item.Date}</div>         
-  //           </Card.Body>
-  //           </Card>
-  //         ))
-  //       }
-  //     </div>
-
-  //     {/* <AmplifySignOut /> */}
-  //   </div>
-  // );
+  
 }
 
-//export default withAuthenticator(Kintai);
 export default Kintai;
