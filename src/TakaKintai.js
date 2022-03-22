@@ -1,34 +1,41 @@
 import React, { useState  } from 'react';
 import { useEffect } from 'react';
 
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
+import Table          from '@mui/material/Table';
+import TableBody      from '@mui/material/TableBody';
+import TableCell      from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
+import TableHead      from '@mui/material/TableHead';
+import TableRow       from '@mui/material/TableRow';
+import Paper          from '@mui/material/Paper';
 import TablePagination from '@mui/material/TablePagination';
-import TextField from '@mui/material/TextField';
-import Box from '@mui/material/Box';
-import Stack from '@mui/material/Stack';
-import Button from '@mui/material/Button';
-import Typography from '@mui/material/Typography';
+import TextField      from '@mui/material/TextField';
+import Box            from '@mui/material/Box';
+import Stack          from '@mui/material/Stack';
+import Button         from '@mui/material/Button';
+import Typography     from '@mui/material/Typography';
 
 function Kintai(props) {
-  const [items, setItems] = useState([{Date:"取得中"}]);
+  const [items, setItems]     = useState([]);
   const rowsPerPage = 5
   const [page,    setPage]    = React.useState(0);
   const [inputid, setInputid] = React.useState('');
   const [userid,  setUserid]  = React.useState('');
+  const [rows,    setRows]    = React.useState([]);
 
   useEffect(() => {
     setInputid(props.EmpNo)
     setUserid(props.EmpNo)
-    //fetchItems();
+    fetchItems();
   }, [inputid]);
 
+  useEffect(() => {
+    var dayrows =createData()
+    setRows(dayrows);
+  }, [items]);
+
   async function fetchItems() {
+    if (inputid==="") {  return  }  // 空振り防止。この画面への遷移直後にinputidなしでAPI callしエラーになる
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({"UserID": inputid});
@@ -37,9 +44,9 @@ function Kintai(props) {
     .then(response => response.text())
     .then(async(response) => {
       const apiData = JSON.parse(response);
-        setItems(apiData);
-        setUserid(inputid);
-      })
+      setItems(apiData);
+      setUserid(inputid);
+    })
     .catch(error => console.log('error', error));
     //alert(response);
   }
@@ -74,7 +81,7 @@ function Kintai(props) {
     });
     return rows;
   }
-  const rows = createData();
+  //const rows = createData();
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
