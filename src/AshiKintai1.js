@@ -1,127 +1,144 @@
-import './App.css';
-import './Kintai.css';
-import React, { useState, useEffect } from 'react';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import { DataGrid,GridToolbarContainer,GridToolbarFilterButton, getGridStringOperators } from '@mui/x-data-grid';
+import React          from 'react'
+import { useState }   from 'react';                     // state（コンポネント単位のデータ保存機能）
+import { useEffect }  from 'react';                     // effect (state変化したときの処理機能)
 import { useHistory } from 'react-router-dom';
+import { CardActionArea } from '@mui/material';
+import Box from '@mui/material/Box';
+import Card        from '@mui/material/Card';
+import CardHeader  from '@mui/material/CardHeader';
+import CardActions from '@mui/material/CardActions';
+import CardContent from '@mui/material/CardContent';
+import Button      from '@mui/material/Button';
+import Grid        from '@mui/material/Grid';
+import Typography  from '@mui/material/Typography';
+import IconButton from '@mui/material/IconButton';
+import Collapse from '@mui/material/Collapse';
+import { styled } from '@mui/material/styles';
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
+import BusinessIcon from '@mui/icons-material/Business';
+import HomeIcon from '@mui/icons-material/Home';
+
+const emps = [                                     // 社員出勤状況初期値
+  {'EmpNo':'00000', 'FirstName':'---','LastName':'データ取得中', 'status':'0' }
+]
+const ExpandMore = styled((props) => {
+  const { expand, ...other } = props;
+  return <IconButton {...other} />;
+})(({ theme, expand }) => ({
+  transform: !expand ? 'rotate(0deg)' : 'rotate(180deg)',
+  marginLeft: 'auto',
+  transition: theme.transitions.create('transform', {
+    duration: theme.transitions.duration.shortest,
+  }),
+}));
 
 function Kintai() {
-  const [rows, setRows] = useState([]);
-  var date = new Date().toLocaleString();
-  var test = 'test'
-  useEffect(() => {
-    fetchItems();
+  const history = useHistory();
+  const [employees, setEmployees] = useState(emps);
+  const [expanded, setExpanded] = React.useState(false);  
+  const [datetime,  setDateTime]  = useState(new Date());  
+  const selectEmp = (emp) => {
+    // 詳細画面へ遷移する。EmpNoを渡す。
+    history.push({ 
+      pathname: '/ashi2', 
+      state: { 
+        selectedid: emp.EmpNo,
+        selectedname: emp.LastName+' '+emp.FirstName
+      }
+    });  
+  }  
+  useEffect(() => {                            // 描画後の処理。タイマーでデータを定期更新する。
+    fetchItems();                              // データを再取得
+  //   const interval = setInterval(() => {
+  //       setDateTime(new Date());               // datetimeを更新
+  //   }, 1000);                                  // ミリ秒ごと
+  //   return () => clearInterval(interval);      // 再描画が終わったらinterval（タイマー）停止
+  // }, [datetime]);                              // datetimeが更新されたらこの関数(effect)を実行
   }, []);
 
+  // 社員勤怠状態をAPIから取得し、employeesにセットする
   async function fetchItems() {
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({});
     var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
-    fetch("https://7ydtm36vx3.execute-api.ap-northeast-1.amazonaws.com/dev/", requestOptions)
+    fetch("https://7ydtm36vx3.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
     .then(response => response.text())
     .then(async(response) => {
       const apiData = JSON.parse(response);
-      setRows(apiData);
-      })
+      setEmployees(apiData);
+      console.log(apiData);
+    })
     .catch(error => console.log('error', error));
   }
-  //フィルターのカスタマイズ
-  const filterOperators=
-    getGridStringOperators().filter(
-      (operator) => operator.value ==='contains'
-    );
 
-  const columns = [
-    { field: 'EmpNo', headerName: '従業員番号', filterOperators: filterOperators},
-    { field: 'FullName', headerName: '名前', valueGetter: getFullName, filterOperators: filterOperators},
-    { field: 'StatusDesc', headerName: '状況', valueGetter: getStatus, type: 'singleSelect', valueOptions: ['不在', '出勤', '在宅']},
-  ];
-  //フルネームで表示  
-  function getFullName(params) {
-    return `${params.row.LastName || ''} ${params.row.FirstName || ''}`;
+  // 勤怠を記録する（テスト用）
+  const createAttendance = (index) => {
+    sendAttendance(employees[index].CardID);  // APIをcallする。CardIDを渡す。
   }
-  //ステータスの値によって表示を変える
-  function getStatus(params){
-    var statusdesc=''
-    if(params.row.Status==='0'){
-      statusdesc='不在'
-    }else if(params.row.Status==='1'){
-      statusdesc='出勤'
-    }else if(params.row.Status==='2'){
-      statusdesc='在宅'
-    }
-    return statusdesc
+  async function sendAttendance(CardID) {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var raw = JSON.stringify({"CardID":CardID});
+    var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
+    fetch("https://iv822lhlh5.execute-api.ap-northeast-1.amazonaws.com/dev/", requestOptions)
+    .then(response => response.text())
+    .then(async(response) => {
+      const apiData = JSON.parse(response);
+      console.log(apiData);
+    })
+    .catch(error => console.log('error', error));
   }
-  //ページ遷移
-  let history = useHistory();
-  function handleClick(params) {
-    history.push({
-      pathname: './ashi2',
-      state: { 
-        selectedid: params.id,
-        selectedname: params.row.LastName+' '+params.row.FirstName
-      }
-    });
-  }
-  //ツールバーのカスタマイズ
-  function CustomToolbar(){
-    return(
-      <GridToolbarContainer>
-        <GridToolbarFilterButton />
-      </GridToolbarContainer>
-    )
-  }
+
+  const handleExpandClick = () => {
+    setExpanded(!expanded);
+  };
 
   return (
-    <Box>
-    <Typography variant="h6">
-      出勤状況（{date}時点）
-    </Typography>
-      <Box 
-        sx={{ 
-          width:'50%',
-          mx:'auto',
-          bgcolor: '#ffffff',
-          '& .super-app-theme--0': {
-            bgcolor: '#ffffff',
-            '&:hover': {
-              bgcolor: '#eeeeee'
-            }
-          },
-          '& .super-app-theme--1': {
-            bgcolor: '#66bb6a',
-            '&:hover': {
-              bgcolor: '#4caf50'
-            }
-          },
-          '& .super-app-theme--2': {
-            bgcolor: '#ffb74d',
-            '&:hover': {
-              bgcolor: '#ffa726'
-            }
-          },
-        }}>
-        <DataGrid
-          autoHeight
-          rows={rows}
-          columns={columns}
-          pageSize={20}
-          rowsPerPageOptions={[20]}
-          getRowId={(row) => row.EmpNo}
-          disableColumnSelector
-          disableColumnMenu
-          components={{
-            Toolbar: CustomToolbar,
-          }}
-          onCellClick={(params,event,details)=>{handleClick(params);}}
-          getRowClassName={(params) => `super-app-theme--${params.row.Status}`}
-        />
-      </Box>
+    <Box sx={{mx:2}}>
+      <Grid container>
+        {/* 社員の数だけGridを作成する */}
+        {employees.map((emp, index) => (
+          <Grid item sx={{}} key={emp.EmpNo}>
+            <Card sx={{width:"250px", margin:1}} >
+            <CardActionArea onClick={() => selectEmp(emp)}>
+              {/* statusによってCardHeaderの色を変える */}
+              {emp.Status === '1' ?
+              <CardHeader title={emp.LastName+' '+emp.FirstName} sx={{backgroundColor:"#4caf50",color:"#FFFFFF" }}/> :
+              <CardHeader title={emp.LastName+' '+emp.FirstName} sx={{backgroundColor:"#f44336",color:"#FFFFFF" }}/> 
+              }
+            </CardActionArea>
+              {/* <CardActions>
+                <ExpandMore
+                  expand={expanded}
+                  onClick={handleExpandClick}
+                  aria-expanded={expanded}
+                  aria-label="show more"
+                >
+                  <ExpandMoreIcon />
+                </ExpandMore>
+              </CardActions>
+              <Collapse in={expanded} timeout="auto" unmountOnExit> */}
+                <CardContent sx={{backgroundColor:"#FFFFFF",color:"#444444",fontSize:"20px" }}>
+                  <Typography>{emp.EmpNo}</Typography>
+                  <Grid container>
+                    <Grid item xs={3}>
+                      <Typography align="right" pr={2}>IN</Typography>
+                      <Typography align="right" pr={2}>OUT</Typography>
+                    </Grid>
+                    <Grid item xs={9}>
+                      <Typography align="left"> {emp.InDate} {emp.InTime}</Typography>
+                      <Typography align="left"> {emp.OutDate} {emp.OutTime}</Typography>
+                    </Grid>
+                  </Grid>
+                </CardContent>
+              {/* </Collapse> */}
+            </Card> 
+          </Grid>
+        ))}
+      </Grid>
     </Box>
-  );
+  )
 }
 
-//export default withAuthenticator(Kintai);
-export default Kintai;
+export default Kintai 

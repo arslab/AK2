@@ -5,8 +5,17 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import Pagination from '@mui/material/Pagination';
+import PaginationItem from '@mui/material/PaginationItem';
 import { useLocation,useHistory } from 'react-router-dom'
-import { DataGrid,GridToolbarContainer,GridToolbarFilterButton,getGridDateOperators} from '@mui/x-data-grid';
+import { DataGrid,GridToolbarContainer,
+  GridToolbarFilterButton,
+  getGridDateOperators,
+  gridPageCountSelector,
+  gridPageSelector,
+  useGridApiContext,
+  useGridSelector,
+} from '@mui/x-data-grid';
 
 function Kintai() {
   const [items, setItems] = useState([]);
@@ -35,27 +44,15 @@ function Kintai() {
   function createData() {
     var id=0
     var date='';
-    var inTime='';
-    var outTime='';
+    var time='';
     var remarks='';
-    var trxCode=''
     var rows=[];
-    var count=0;
     items.map(item => {
       date=item.Date;
+      time=item.Time;
       remarks=item.Remarks;
-      if(item.TrxCode==='IN'){
-        inTime=item.Time;
-        outTime='';
-      }else if(item.TrxCode==='OUT'){
-        outTime=item.Time;
-        inTime='';
-      }else{
-        inTime=item.Time;
-        outTime=item.Time;
-      }
       id=id+1;
-      rows.push({id,date,inTime,outTime,remarks});
+      rows.push({id,date,time,remarks});
       // if(item.Date!==date){
       //   if(date!==''){
       //     id=id+1;
@@ -88,9 +85,9 @@ function Kintai() {
   );
 
   const columns = [
-    { field: 'date', headerName: '日付', type: 'date', filterOperators: filterOperators},
-    { field: 'inTime', headerName: '出勤時刻', filterable: false},
-    { field: 'outTime', headerName: '退勤時刻', filterable: false},
+    { field: 'date', headerName: '日付', type: 'date', width: 150, filterOperators: filterOperators},
+    { field: 'time', headerName: '打刻時刻', width: 150, filterable: false},
+    { field: 'remarks', headerName: '備考', flex: 2, minWidth: 100},
   ];
   //戻るボタン
   let history = useHistory();
@@ -105,6 +102,21 @@ function Kintai() {
       </GridToolbarContainer>
     );
   }
+  //ページ遷移のカスタマイズ
+  function CustomPagination() {
+    const apiRef = useGridApiContext();
+    const page = useGridSelector(apiRef, gridPageSelector);
+    const pageCount = useGridSelector(apiRef, gridPageCountSelector);
+  
+    return (
+      <Pagination
+        color="secondary"
+        count={pageCount}
+        page={page + 1}
+        onChange={(event, value) => apiRef.current.setPage(value - 1)}
+      />
+    );
+  }
 
   return (
     <Box sx={{ 
@@ -112,7 +124,7 @@ function Kintai() {
       mx:'auto',
       }}>
       <Stack spacing={2} direction="row">
-        <Button variant="contained" disableElevation onClick={() => {handleButton()}}>戻る</Button>
+        <Button variant="contained" color="secondary" disableElevation onClick={() => {handleButton()}}>戻る</Button>
       </Stack>
       <Typography variant="h6">
         {selectedname}の記録
@@ -133,6 +145,7 @@ function Kintai() {
           disableSelectionOnClick
           components={{
             Toolbar: CustomToolbar,
+            Pagination: CustomPagination,
           }}
         />
       </Box>
