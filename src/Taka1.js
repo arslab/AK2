@@ -85,11 +85,14 @@ function Taka1() {
               <CardContent sx={{backgroundColor:"#FFFFFF",color:"#444444",fontSize:"20px" }}>
                 {/* statusによって出勤/退勤を表示する */}
                 {emp.Status === '1' ?
-                <Typography variant="h5" component="div" >出勤してます</Typography> :
-                <Typography variant="h5" component="div">退勤しました</Typography>
+                <Typography variant="h6" component="div" >出勤してます</Typography> :
+                <Typography variant="h6" component="div">退勤しました</Typography>
                 }
                 {/* 社員データを表示する */}
-                <Typography component="div" sx={{color:'text.secondary',fontSize:14, marginTop:1}}>
+                <Typography component="div" sx={{color:'text.secondary',fontSize:14, marginTop:0}}>
+                  {emp.InTime}-{emp.OutTime}
+                </Typography>
+                <Typography component="div" sx={{color:'text.secondary',fontSize:14, marginTop:0}}>
                   {emp.EmpNo} {emp.LastName} {emp.FirstName}
                 </Typography>
               </CardContent>
