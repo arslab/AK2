@@ -121,7 +121,7 @@ function AK2Home() {
           <Box sx={{mx:2}}>
             <Grid container spacing={2}>
               <Grid item xs={3}>
-                <Link href="./AK2List">Listはこちら</Link>
+                <Link href="./AK2List">List表示</Link>
               </Grid>
               <Grid item xs={6}/>
               <Grid item xs={3}>
