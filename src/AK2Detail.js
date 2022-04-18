@@ -33,7 +33,8 @@ function AK2Detail() {
     myHeaders.append("Content-Type", "application/json");
     var raw = JSON.stringify({"UserID": selectedid});
     var requestOptions = {method: 'POST', headers: myHeaders, body: raw, redirect: 'follow' };
-    fetch("https://el2gjqf1n3.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
+    //fetch("https://el2gjqf1n3.execute-api.ap-northeast-1.amazonaws.com/dev", requestOptions)
+    fetch("https://9628fzjhee.execute-api.ap-northeast-1.amazonaws.com/dev/", requestOptions)
     .then(response => response.text())
     .then(async(response) => {
       const apiData = JSON.parse(response);
