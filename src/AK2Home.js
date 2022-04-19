@@ -17,7 +17,6 @@ import Link from '@mui/material/Link';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ImHome } from "react-icons/im";
 import { ImOffice } from "react-icons/im";
-import { Home } from '@material-ui/icons';
 
 
 const emps = [                                     // 社員出勤状況初期値
