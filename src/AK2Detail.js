@@ -47,14 +47,16 @@ function AK2Detail() {
     var id=0
     var date='';
     var time='';
+    var trxcode='';
     var remarks='';
     var rows=[];
     items.map(item => {
       date=item.Date;
       time=item.Time;
+      trxcode=item.TrxCode;
       remarks=item.Remarks;
       id=id+1;
-      rows.push({id,date,time,remarks});
+      rows.push({id,date,time,trxcode,remarks});
     });
     return rows;
   }
@@ -66,8 +68,9 @@ function AK2Detail() {
   );
 
   const columns = [
-    { field: 'date', headerName: '日付', type: 'date', width: 150, filterOperators: filterOperators},
-    { field: 'time', headerName: '打刻時刻', width: 150, filterable: false},
+    { field: 'date',    headerName: '日付', type: 'date', width: 150, filterOperators: filterOperators},
+    { field: 'time',    headerName: '打刻時刻', width: 150, filterable: false},
+    { field: 'trxcode', headerName: '出退',     width: 150, filterable: false},
     { field: 'remarks', headerName: '備考', flex: 2, minWidth: 100},
   ];
   //戻るボタン
