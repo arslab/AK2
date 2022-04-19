@@ -6,6 +6,7 @@ import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Auth } from "aws-amplify";
 import { AmplifySignOut } from '@aws-amplify/ui-react';
+import logo from './arslogo.png';
 
 function AK2Header(props) {
   var date = new Date().toLocaleString();
@@ -13,7 +14,7 @@ function AK2Header(props) {
       <AppBar position="static" sx={{color: '#424242', bgcolor: '#ffffff'}}>
         <Toolbar variant="dense">
           <Typography variant="h5" component="div" align="left" sx={{ flexGrow: 6 }} padding={2}>
-            <img src="https://www.cresco.co.jp/wp-content/themes/crs/common/img/new_style/logo.svg" alt="株式会社クレスコ"></img>
+            <img src={logo} alt="アルス株式会社"></img>
           </Typography>
           <Typography component="div" sx={{ flexGrow: 1 }}>
             {props.datetime}
