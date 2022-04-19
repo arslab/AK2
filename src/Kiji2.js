@@ -1,29 +1,20 @@
 import React from 'react';
-import './Kiji.css';
 import Box from '@mui/material/Box';
 import AppHeader from './KijiHeader';
-import AppFooter from './KijiFooter';
-import Kintai from './Kintai';
-//import { withAuthenticator } from '@aws-amplify/ui-react';
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import AppFooter from './AppFooter';
+import Kintai    from './KijiKintai';
 
-function App() {
-  // return (
-  //   <div className="mt-5 mb-5 container-fluid AppBg0">
-  //     <AppHeader/>
-  //     <Kintai/>
-  //     <AppFooter/>
-  //   </div>
-  // );
+function Kiji2(props) {
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', minHeight: '100vh'}}>
-      <AppHeader/>
+      <AppHeader title="個人勤怠記録"/>
       <Box sx={{ py: 2, flex: 1, backgroundColor: (theme) => theme.palette.grey[100]}}>
-        <Kintai/>
+        <Kintai EmpNo={props.location.state.EmpNo}/>
       </Box>
       <AppFooter/>
     </Box>
   );
 }
 
-export default App;
+export default Kiji2;

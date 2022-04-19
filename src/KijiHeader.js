@@ -1,31 +1,30 @@
 import React from 'react';
-import './Kiji.css';
-//import 'bootstrap/dist/css/bootstrap.min.css';
+import { useHistory } from 'react-router-dom';
 
-//import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
+import AppBar     from '@mui/material/AppBar';
+import Toolbar    from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
-//import IconButton from '@mui/material/IconButton';
-//import MenuIcon from '@mui/icons-material/Menu';
+import IconButton from '@mui/material/IconButton';
+import HomeIcon   from '@mui/icons-material/Home';
 import { AmplifySignOut } from '@aws-amplify/ui-react';
 
-function AppHeader() {
-  // return (
-  //     <header className="fixed-top AppHeader AppBg2">
-  //       <div className="col-4">ARS Kintai2</div>
-  //       <div className="col-6">
-  //         <div>XXXX</div>
-  //         <div>YYYY</div>
-  //       </div>
-  //       <div className="col-2">ZZZZ</div>
-  //     </header>
-  // );
+function AppHeader(props) {
+  const history = useHistory();
+  const clickHome = (index) => {
+    history.push({ pathname: '/Kiji1'});  
+  }
+
   return (
       <AppBar position="static">
         <Toolbar>
+          <IconButton type="button" sx={{ p: props.padding }} aria-label="home" onClick={clickHome}>
+            <HomeIcon />
+          </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            勤怠
+            {props.title}
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            {props.datetime}
           </Typography>
           <AmplifySignOut  buttonText="ログアウト"/>
         </Toolbar>

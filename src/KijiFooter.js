@@ -33,7 +33,7 @@ function AppFooter() {
       >
         <Container maxWidth="sm">
           <Typography variant="body1">
-            勤怠確認画面
+            勤怠確認画面　木島のフッター
           </Typography>
           <Copyright />
         </Container>
