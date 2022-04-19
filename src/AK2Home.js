@@ -2,7 +2,7 @@ import React          from 'react'
 import { useState }   from 'react';                     // state（コンポネント単位のデータ保存機能）
 import { useEffect }  from 'react';                     // effect (state変化したときの処理機能)
 import { useHistory } from 'react-router-dom';
-import { CardActionArea } from '@mui/material';
+import { CardActionArea, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card        from '@mui/material/Card';
 import CardHeader  from '@mui/material/CardHeader';
@@ -15,6 +15,9 @@ import AK2Header from './AK2Header';
 import AK2Footer from './AK2Footer';
 import Link from '@mui/material/Link';
 import InputAdornment from '@mui/material/InputAdornment';
+import { ImHome } from "react-icons/im";
+import { ImOffice } from "react-icons/im";
+import { Home } from '@material-ui/icons';
 
 
 const emps = [                                     // 社員出勤状況初期値
@@ -121,10 +124,6 @@ function AK2Home() {
           <Box sx={{mx:2}}>
             <Grid container spacing={2}>
               <Grid item xs={3}>
-                <Link href="./AK2List">List表示</Link>
-              </Grid>
-              <Grid item xs={6}/>
-              <Grid item xs={3}>
                 <TextField id="input" label="検索" value={input} size="small" sx={{backgroundColor:'white'}} onChange={handleChange}
                   InputProps={{
                     startAdornment: (
@@ -136,17 +135,32 @@ function AK2Home() {
                   variant="outlined" 
                 />
               </Grid>
+
+              <Grid item xs={6}/>
+              
+              <Grid item xs={3}>
+                <Link href="./AK2List">List表示</Link>
+              </Grid>
+
+
             </Grid>
             <Grid container>
               {/* 社員の数だけGridを作成する */}
               {showEmployees.map((emp, index) => (
                 <Grid item sx={{}} key={emp.EmpNo}>
                   <Card sx={{width:"200px", margin:1}} >
+
                   <CardActionArea onClick={() => selectEmp(emp)}>
                     {/* statusによってCardHeaderの色を変える */}
                     {emp.Status === '1' ?
-                    <CardHeader title={emp.LastName+' '+emp.FirstName} titleTypographyProps={{variant:"h6"}} sx={{backgroundColor:(theme)=>theme.palette.secondary.main,color:"#FFFFFF" }}/> :
+                    <CardHeader title={emp.LastName+' '+emp.FirstName} titleTypographyProps={{variant:"h6"}} sx={{backgroundColor:(theme)=>theme.palette.secondary.main,color:"#FFFFFF" }}/>
+                    :
                     <CardHeader title={emp.LastName+' '+emp.FirstName} titleTypographyProps={{variant:"h6"}} sx={{backgroundColor:"#90a4ae",color:"#FFFFFF" }}/> 
+                 }
+                    {emp.Status === '1' ?
+                    <Typography variant="h5" component="div"><h1 className="text-6xl p-10"><ImOffice /></h1></Typography> 
+                    :
+                    <Typography variant="h5" component="div"><h1 className="text-6xl p-10"><ImHome /></h1></Typography> 
                     }
                   </CardActionArea>
                   </Card> 
@@ -160,4 +174,4 @@ function AK2Home() {
   )
 }
 
-export default AK2Home 
+export default AK2Home

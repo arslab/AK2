@@ -26,7 +26,7 @@ function AK2Footer() {
           py: 3,
           px: 2,
           mt: 'auto',
-          backgroundColor: '#424242',
+          backgroundColor: '#000000',
         }}
       >
         <Container maxWidth="sm">
