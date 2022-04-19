@@ -12,8 +12,8 @@ function AK2Header(props) {
   return (
       <AppBar position="static" sx={{color: '#424242', bgcolor: '#ffffff'}}>
         <Toolbar variant="dense">
-          <Typography variant="h5" component="div" align="left" sx={{ flexGrow: 6 }}>
-            勤怠確認
+          <Typography variant="h5" component="div" align="left" sx={{ flexGrow: 6 }} padding={2}>
+            <img src="https://www.cresco.co.jp/wp-content/themes/crs/common/img/new_style/logo.svg" alt="株式会社クレスコ"></img>
           </Typography>
           <Typography component="div" sx={{ flexGrow: 1 }}>
             {props.datetime}
