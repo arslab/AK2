@@ -1,3 +1,4 @@
+// takamura のコメント 4/26 14:18
 import React          from 'react'
 import { useState }   from 'react';                     // state（コンポネント単位のデータ保存機能）
 import { useEffect }  from 'react';                     // effect (state変化したときの処理機能)
