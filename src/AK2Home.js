@@ -16,7 +16,7 @@ import AK2Footer from './AK2Footer';
 import Link from '@mui/material/Link';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ImHome } from "react-icons/im";
-import { ImOffice } from "react-icons/im";
+import { ImOffice } from "react-icons/im";//木島のアイコンです。テスト
 
 
 const emps = [                                     // 社員出勤状況初期値
