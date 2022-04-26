@@ -17,7 +17,7 @@ import AK2Footer from './AK2Footer';
 import Link from '@mui/material/Link';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ImHome } from "react-icons/im";
-import { ImOffice } from "react-icons/im";//木島のアイコンです。テスト
+import { ImOffice } from "react-icons/im";//木島のアイコンです。テスト 高村変更
 
 
 const emps = [                                     // 社員出勤状況初期値
