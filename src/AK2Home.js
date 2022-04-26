@@ -1,7 +1,7 @@
 import React          from 'react'
 import { useState }   from 'react';                     // state（コンポネント単位のデータ保存機能）
 import { useEffect }  from 'react';                     // effect (state変化したときの処理機能)
-import { useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';          // react
 import { CardActionArea, Typography } from '@mui/material';
 import Box from '@mui/material/Box';
 import Card        from '@mui/material/Card';
