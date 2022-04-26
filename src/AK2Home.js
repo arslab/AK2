@@ -1,3 +1,4 @@
+// takamura のコメント 4/26 14:18
 import React          from 'react'
 import { useState }   from 'react';                     // state（コンポネント単位のデータ保存機能）
 import { useEffect }  from 'react';                     // effect (state変化したときの処理機能)
@@ -16,7 +17,7 @@ import AK2Footer from './AK2Footer';
 import Link from '@mui/material/Link';
 import InputAdornment from '@mui/material/InputAdornment';
 import { ImHome } from "react-icons/im";
-import { ImOffice } from "react-icons/im";//木島のアイコンです。テスト競合させたい！
+import { ImOffice } from "react-icons/im";//木島のアイコンです。テスト 高村変更
 
 //ashitest
 const emps = [                                     // 社員出勤状況初期値
