@@ -5,7 +5,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Button from '@mui/material/Button';
 import { Auth } from "aws-amplify";
-import { AmplifySignOut } from '@aws-amplify/ui-react';
+import { AmplifyAuthenticator, AmplifySignOut } from '@aws-amplify/ui-react';
 import logo from './arslogo.png';
 
 function AK2Header(props) {
@@ -22,8 +22,11 @@ function AK2Header(props) {
           <Typography component="div" sx={{ flexGrow: 2 }}>
             ログインユーザ:admin
           </Typography>
-          {/* <AmplifySignOut  buttonText="ログアウト"/> */}
-          <Button component="div" variant="contained" color="secondary" disableElevation onClick={() => Auth.signOut()} sx={{ flexGrow: 1 }}>ログアウト</Button>
+
+          <AmplifySignOut buttonText="ログアウト"/>
+
+          {/* <Button component="div" variant="contained" color="secondary" disableElevation onClick={() => Auth.signOut()} sx={{ flexGrow: 1 }}>ログアウト３</Button> */}
+
         </Toolbar>
       </AppBar>
   );

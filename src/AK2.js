@@ -17,6 +17,7 @@ import AK2Home     from './AK2Home';
 import AK2List     from './AK2List';
 import AK2Detail     from './AK2Detail';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
 const theme = createTheme({
   palette: {
@@ -63,4 +64,5 @@ const theme = createTheme({
     )};
   }  
 
-export default AK2;
+//export default AK2;
+export default withAuthenticator(AK2);

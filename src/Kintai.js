@@ -27,6 +27,7 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { withAuthenticator } from '@aws-amplify/ui-react';
 
 function Kintai() {
   const [items, setItems] = useState([]);
